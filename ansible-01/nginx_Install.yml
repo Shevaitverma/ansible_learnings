@@ -1,0 +1,29 @@
+---
+- name: Install and configure Nginx web server
+  hosts: node1
+  become: true
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create custom index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+            <head><title>Welcome to Ansible Deployed Nginx</title></head>
+            <body>
+              <h1>Hello from Ansible-managed server!</h1>
+              <p>This is a custom Nginx page deployed via Ansible.</p>
+            </body>
+          </html>
